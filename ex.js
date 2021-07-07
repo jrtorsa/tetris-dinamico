@@ -70,10 +70,16 @@
 // console.log(plates('Iba en un AAA123 y después en un BBB987'))
 
 const template = (str, obj) => {
+  const wordsInBrackets = str.match(/(?<=\[)[^\][]*(?=])/g)
   const strArr = str.split(" ")
-  const regEx = /([^[]+(?=]))/g.test(strArr)
-   
-  
+  strArr.forEach((word, idx) =>{
+    if(word.match(/(?<=\[)[^\][]*(?=])/g)){
+      word.slice(1, -2)
+      console.log(word)
+      strArr.splice(idx, 1, `${obj.word}`)
+    }
+  })
+  return strArr.join(' ')
 }
 
 console.log(template('Hola [nombre], tu saldo es [saldo]', { nombre: 'German', saldo: 12000}))
