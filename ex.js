@@ -34,7 +34,7 @@
 //       return true;
 //     } else if(firstThree == firstThree.toLowerCase()){
 //       return false;
-//     } 
+//     }
 //   } else {
 //     return false
 //   }
@@ -70,55 +70,29 @@
 // console.log(plates('Iba en un AAA123 y después en un BBB987'))
 
 const template = (str, obj) => {
-  const wordsInBrackets = str.match(/(?<=\[)[^\][]*(?=])/g)
-  const strArr = str.split(" ")
-  strArr.forEach((word, idx) =>{
-    if(word.match(/(?<=\[)[^\][]*(?=])/g)){
-      word.slice(1, -2)
-      console.log(word)
-      strArr.splice(idx, 1, `${obj.word}`)
+  const strArr = str.split(" ");
+  let comma = false
+  strArr.forEach((word, idx) => {
+    if (word.match(/(?<=\[)[^\][]*(?=])/g)) {
+      let w = word.slice(1, -1);
+      if (w.indexOf("]") >= 0) {
+        w = w.slice(0, -1);
+        console.log("word", w);
+        comma = true
+      }
+      if (obj === undefined) {
+        strArr.push("undefined");
+      } else {
+        let text = obj[w]
+        if(comma){
+          text += ','
+          comma = false
+        }
+        strArr.splice(idx, 1, `${text}`);
+      }
     }
-  })
-  return strArr.join(' ')
-}
+  });
+  return strArr.join(" ");
+};
 
-console.log(template('Hola [nombre], tu saldo es [saldo]', { nombre: 'German', saldo: 12000}))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+console.log(template("Hola [nombre], tu saldo es [saldo]", { nombre: "German", saldo: 12000 }));
